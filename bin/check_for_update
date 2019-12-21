@@ -1,0 +1,4 @@
+#!/usr/bin/env node
+
+var https = require("https");
+https.get(process.env.PING_URL);
