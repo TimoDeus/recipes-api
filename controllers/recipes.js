@@ -15,6 +15,18 @@ router.get('/getRecipeById/', function (req, res) {
 	})
 })
 
+router.delete('/deleteRecipe/', function (req, res) {
+	Recipes.deleteRecipe(req.body._id, (err, recipe) => {
+		res.json(recipe)
+	})
+})
+
+router.patch('/updateRecipe/', function (req, res) {
+	Recipes.updateRecipe(req.body._id, req.body, (err, recipe) => {
+		res.json(recipe)
+	})
+})
+
 router.post('/addRecipe', (req, res) => {
 	Recipes.addRecipe(req.body, () => res.json(success))
 })
