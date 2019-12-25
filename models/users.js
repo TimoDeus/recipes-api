@@ -1,14 +1,10 @@
 const db = require('../db');
-const md5 = require('md5');
+const ObjectId = require('mongodb').ObjectID
 
 const getCollection = () => db.get().collection('users');
 
-exports.verifyUser = (data, cb) => {
-	data.password = md5(data.password);
-	getCollection().find(data).next(cb);
-};
+exports.findById = (id, cb) => getCollection().findOne(ObjectId(id), cb)
 
-exports.addUser = (data, cb) => {
-	data.password = md5(data.password);
-	getCollection().insertOne(data, cb);
-};
+exports.findByName = (name, cb) => getCollection().findOne({name: name}, cb)
+
+exports.addUser = (data, cb) => getCollection().insertOne(data, cb)
