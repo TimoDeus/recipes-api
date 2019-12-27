@@ -1,5 +1,4 @@
 const Users = require('../models/users')
-const verifyJwtToken = require('../middlewares/verifyToken')
 const express = require('express')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
@@ -46,10 +45,6 @@ router.post('/login', function (req, res) {
 
 		res.status(200).send({ auth: true, token })
 	})
-})
-
-router.get('/me', verifyJwtToken, function (req, res) {
-	res.status(200).send({ success: 'success' })
 })
 
 module.exports = router
