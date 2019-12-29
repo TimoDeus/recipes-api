@@ -38,16 +38,16 @@ router.post('/addRecipe', verifyToken, hasWriteAccess, (req, res) => {
 	Recipes.addRecipe(req.body, () => res.json(success))
 })
 
-router.get('/getRecipesByLabels', (req, res) => {
-	Recipes.getRecipesByLabels(req.query.labels, (err, recipes) => res.json(recipes))
+router.get('/getRecipesByTags', (req, res) => {
+	Recipes.getRecipesByTags(req.query.tags, (err, recipes) => res.json(recipes))
 })
 
 router.get('/getRecipesByFreetext', (req, res) => {
 	Recipes.getRecipesByFreetext(req.query.freetext, (err, recipes) => res.json(recipes))
 })
 
-router.get('/getLabels', (req, res) => {
-	Recipes.getLabels((err, labels) => res.json(labels.sort()))
+router.get('/getTags', (req, res) => {
+	Recipes.getTags((err, tags) => res.json(tags.sort()))
 })
 
 module.exports = router

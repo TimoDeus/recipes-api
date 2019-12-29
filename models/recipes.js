@@ -5,7 +5,7 @@ const getCollection = () => db.get().collection('recipes')
 
 const groupByType = { $group: { '_id': '$type', recipes: { $push: '$$ROOT' } } }
 const notDeleted = { $match: { deleted: { $ne: true } } }
-const matchLabels = labels => ({ $match: { labels: { $all: labels.split(',') } } })
+const matchTags = tags => ({ $match: { tags: { $all: tags.split(',') } } })
 const matchFreetext = freetext => {
 	const pattern = new RegExp(freetext, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
@@ -31,14 +31,14 @@ exports.updateRecipe = (recipeId, data, cb) => {
 	getCollection().updateOne({ _id: ObjectId(recipeId) }, { $set: data }, cb)
 }
 
-exports.getRecipesByLabels = (labels, cb) => {
-	getCollection().aggregate([notDeleted, matchLabels(labels), groupByType], cb)
+exports.getRecipesByTags = (tags, cb) => {
+	getCollection().aggregate([notDeleted, matchTags(tags), groupByType], cb)
 }
 
 exports.getRecipesByFreetext = (freetext, cb) => {
 	getCollection().aggregate([notDeleted, matchFreetext(freetext), groupByType], cb)
 }
 
-exports.getLabels = cb => {
-	getCollection().distinct('labels', cb)
+exports.getTags = cb => {
+	getCollection().distinct('tags', cb)
 }
