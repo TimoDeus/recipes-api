@@ -23,13 +23,13 @@ router.get('/getRecipeById/', (req, res) => {
 })
 
 router.delete('/deleteRecipe/', verifyToken, hasWriteAccess, (req, res) => {
-	Recipes.deleteRecipe(req.body._id, (err, recipe) => {
+	Recipes.deleteRecipe(req.body.recipeId, (err, recipe) => {
 		res.json(recipe)
 	})
 })
 
 router.patch('/updateRecipe/', verifyToken, hasWriteAccess, (req, res) => {
-	Recipes.updateRecipe(req.body._id, req.body, (err, recipe) => {
+	Recipes.updateRecipe(req.body.recipeId, req.body, (err, recipe) => {
 		res.json(recipe)
 	})
 })
