@@ -6,8 +6,8 @@ const getCollection = () => db.get().collection('recipes')
 const groupByType = { $group: { '_id': '$type', recipes: { $push: '$$ROOT' } } }
 const notDeleted = { $match: { deleted: { $ne: true } } }
 const matchTags = tags => ({ $match: { tags: { $all: tags.split(',') } } })
-const matchFreetext = freetext => {
-	const pattern = new RegExp(freetext, 'i')
+const matchQuery = query => {
+	const pattern = new RegExp(query, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
 }
 
@@ -36,8 +36,8 @@ exports.getRecipesByTags = (tags, cb) => {
 	getCollection().aggregate([notDeleted, matchTags(tags), groupByType], cb)
 }
 
-exports.getRecipesByFreetext = (freetext, cb) => {
-	getCollection().aggregate([notDeleted, matchFreetext(freetext), groupByType], cb)
+exports.getRecipesByQuery = (query, cb) => {
+	getCollection().aggregate([notDeleted, matchQuery(query), groupByType], cb)
 }
 
 exports.getTags = cb => {

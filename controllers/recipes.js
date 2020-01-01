@@ -42,8 +42,8 @@ router.get('/getRecipesByTags', (req, res) => {
 	Recipes.getRecipesByTags(req.query.tags, (err, recipes) => res.json(recipes))
 })
 
-router.get('/getRecipesByFreetext', (req, res) => {
-	Recipes.getRecipesByFreetext(req.query.freetext, (err, recipes) => res.json(recipes))
+router.get('/getRecipesByQuery', (req, res) => {
+	Recipes.getRecipesByQuery(req.query.query, (err, recipes) => res.json(recipes))
 })
 
 router.get('/getTags', (req, res) => {
