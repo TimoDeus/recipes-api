@@ -28,7 +28,7 @@ router.delete('/deleteRecipe/', verifyToken, hasWriteAccess, (req, res) => {
 	})
 })
 
-router.patch('/updateRecipe/', verifyToken, hasWriteAccess, (req, res) => {
+router.patch('/editRecipe/', verifyToken, hasWriteAccess, (req, res) => {
 	Recipes.updateRecipe(req.body.recipeId, req.body, (err, recipe) => {
 		res.json(recipe)
 	})
