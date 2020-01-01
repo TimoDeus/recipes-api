@@ -24,11 +24,12 @@ exports.addRecipe = (data, cb) => {
 }
 
 exports.deleteRecipe = (recipeId, cb) => {
-	exports.updateRecipe(recipeId, { deleted: true }, cb)
+	exports.updateRecipe({ _id: recipeId, deleted: true }, cb)
 }
 
-exports.updateRecipe = (recipeId, data, cb) => {
-	getCollection().updateOne({ _id: ObjectId(recipeId) }, { $set: data }, cb)
+exports.updateRecipe = (data, cb) => {
+	const {_id, ...rest} = data
+	getCollection().updateOne({ _id: ObjectId(_id) }, { $set: rest }, cb)
 }
 
 exports.getRecipesByTags = (tags, cb) => {
