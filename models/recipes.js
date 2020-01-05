@@ -5,7 +5,7 @@ const getCollection = () => db.get().collection('recipes')
 
 const groupByType = { $group: { '_id': '$type', recipes: { $push: '$$ROOT' } } }
 const notDeleted = { $match: { deleted: { $ne: true } } }
-const matchTags = tags => ({ $match: { tags: { $all: tags.split(',') } } })
+const matchTags = tags => ({ $match: { tags: { $all: tags } } })
 const matchQuery = query => {
 	const pattern = new RegExp(query, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
@@ -18,7 +18,11 @@ exports.all = (queryParams, cb) => {
 		pipeline.push(matchQuery(queryParams.query))
 	}
 	if (queryParams.tags) {
-		pipeline.push(matchTags(queryParams.tags))
+		let {tags = []} = queryParams
+		if(!Array.isArray(tags)) {
+			tags = [tags];
+		}
+		pipeline.push(matchTags(tags))
 	}
 	pipeline.push(groupByType)
 	getCollection().aggregate(pipeline, cb)
