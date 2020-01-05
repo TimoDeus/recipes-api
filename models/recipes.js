@@ -11,8 +11,17 @@ const matchQuery = query => {
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
 }
 
-exports.all = cb => {
-	getCollection().aggregate([notDeleted, groupByType], cb)
+exports.all = (queryParams, cb) => {
+	const pipeline = []
+	pipeline.push(notDeleted)
+	if (queryParams.query) {
+		pipeline.push(matchQuery(queryParams.query))
+	}
+	if (queryParams.tags) {
+		pipeline.push(matchTags(queryParams.tags))
+	}
+	pipeline.push(groupByType)
+	getCollection().aggregate(pipeline, cb)
 }
 
 exports.getRecipeById = (recipeId, cb) => {
@@ -28,16 +37,8 @@ exports.deleteRecipe = (recipeId, cb) => {
 }
 
 exports.updateRecipe = (data, cb) => {
-	const {_id, ...rest} = data
+	const { _id, ...rest } = data
 	getCollection().updateOne({ _id: ObjectId(_id) }, { $set: rest }, cb)
-}
-
-exports.getRecipesByTags = (tags, cb) => {
-	getCollection().aggregate([notDeleted, matchTags(tags), groupByType], cb)
-}
-
-exports.getRecipesByQuery = (query, cb) => {
-	getCollection().aggregate([notDeleted, matchQuery(query), groupByType], cb)
 }
 
 exports.getTags = cb => {

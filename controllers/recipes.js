@@ -4,14 +4,15 @@ const bodyParser = require('body-parser')
 const Recipes = require('../models/recipes')
 const verifyToken = require('../middlewares/verifyToken')
 const hasWriteAccess = require('../middlewares/hasWriteAccess')
+const qs = require('qs')
 
 router.use(bodyParser.urlencoded({ extended: false }))
 router.use(bodyParser.json())
 
 const success = { 'success': 'true' }
 
-router.get('/', function (req, res) {
-	Recipes.all((err, recipes) => {
+router.get('/', (req, res) => {
+	Recipes.all(qs.parse(req.query), (err, recipes) => {
 		res.json(recipes)
 	})
 })
@@ -36,14 +37,6 @@ router.patch('/editRecipe/', verifyToken, hasWriteAccess, (req, res) => {
 
 router.post('/addRecipe', verifyToken, hasWriteAccess, (req, res) => {
 	Recipes.addRecipe(req.body, () => res.json(success))
-})
-
-router.get('/getRecipesByTags', (req, res) => {
-	Recipes.getRecipesByTags(req.query.tags, (err, recipes) => res.json(recipes))
-})
-
-router.get('/getRecipesByQuery', (req, res) => {
-	Recipes.getRecipesByQuery(req.query.query, (err, recipes) => res.json(recipes))
 })
 
 router.get('/getTags', (req, res) => {
