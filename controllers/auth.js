@@ -43,7 +43,7 @@ router.post('/login', function (req, res) {
 			expiresIn: DEFAULT_EXPIRATION
 		})
 
-		res.status(200).send({ auth: true, token })
+		res.status(200).send({ auth: true, name: user.name, token })
 	})
 })
 
