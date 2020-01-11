@@ -8,7 +8,7 @@ app.engine('pug', require('pug').__express);
 app.set('view engine', 'pug');
 
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb'}));
 
 app.all('/*', function (req, res, next) {
 	res.setHeader('Access-Control-Allow-Origin', '*');
