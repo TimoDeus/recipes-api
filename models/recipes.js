@@ -10,6 +10,7 @@ const matchQuery = query => {
 	const pattern = new RegExp(query, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
 }
+const matchNormalizedTitle = query => ({ $match: { normalizedTitle: query  } })
 
 exports.all = (queryParams, cb) => {
 	const pipeline = []
@@ -26,6 +27,10 @@ exports.all = (queryParams, cb) => {
 	}
 	pipeline.push(groupByType)
 	getCollection().aggregate(pipeline, cb)
+}
+
+exports.getRecipeByTitle = (title, cb) => {
+	getCollection().aggregate([notDeleted, matchNormalizedTitle(title)], cb)
 }
 
 exports.getRecipeById = (recipeId, cb) => {

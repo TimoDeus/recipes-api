@@ -23,6 +23,12 @@ router.get('/getRecipeById/', (req, res) => {
 	})
 })
 
+router.get('/getRecipeByTitle/', (req, res) => {
+	Recipes.getRecipeByTitle(req.query.title, (err, recipe) => {
+		res.json(recipe)
+	})
+})
+
 router.delete('/deleteRecipe/', verifyToken, hasWriteAccess, (req, res) => {
 	Recipes.deleteRecipe(req.body.recipeId, (err, recipe) => {
 		res.json(recipe)
