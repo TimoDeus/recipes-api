@@ -19,13 +19,13 @@ router.get('/', (req, res) => {
 
 router.get('/getRecipeById/', (req, res) => {
 	Recipes.getRecipeById(req.query.recipeId, (err, recipe) => {
-		res.json(recipe)
+		err || !recipe ? res.status(400).send() : res.json(recipe)
 	})
 })
 
 router.get('/getRecipeByTitle/', (req, res) => {
 	Recipes.getRecipeByTitle(req.query.title, (err, recipe) => {
-		res.json(recipe)
+		err || !recipe ? res.status(400).send() : res.json(recipe)
 	})
 })
 
