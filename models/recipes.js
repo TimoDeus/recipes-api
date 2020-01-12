@@ -10,7 +10,8 @@ const matchQuery = query => {
 	const pattern = new RegExp(query, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
 }
-const matchNormalizedTitle = query => ({ $match: { normalizedTitle: new RegExp(query, 'i')  } })
+const matchNormalizedTitle = query => ({ $match: { normalizedTitle: new RegExp(query, 'i') } })
+const sortByTitle = { $sort: { normalizedTitle: 1 } }
 
 exports.all = (queryParams, cb) => {
 	const pipeline = []
@@ -19,12 +20,13 @@ exports.all = (queryParams, cb) => {
 		pipeline.push(matchQuery(queryParams.query))
 	}
 	if (queryParams.tags) {
-		let {tags = []} = queryParams
-		if(!Array.isArray(tags)) {
-			tags = [tags];
+		let { tags = [] } = queryParams
+		if (!Array.isArray(tags)) {
+			tags = [tags]
 		}
 		pipeline.push(matchTags(tags))
 	}
+	pipeline.push(sortByTitle)
 	pipeline.push(groupByType)
 	getCollection().aggregate(pipeline, cb)
 }
