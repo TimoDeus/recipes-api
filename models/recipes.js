@@ -30,7 +30,7 @@ exports.all = (queryParams, cb) => {
 }
 
 exports.getRecipeByTitle = (title, cb) => {
-	getCollection().aggregate([notDeleted, matchNormalizedTitle(title)], cb)
+	getCollection().aggregate([notDeleted, matchNormalizedTitle(title)]).next(cb)
 }
 
 exports.getRecipeById = (recipeId, cb) => {
