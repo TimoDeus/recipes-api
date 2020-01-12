@@ -10,7 +10,7 @@ const matchQuery = query => {
 	const pattern = new RegExp(query, 'i')
 	return { $match: { $or: [{ title: pattern }, { shortDescription: pattern }] } }
 }
-const matchNormalizedTitle = query => ({ $match: { normalizedTitle: query  } })
+const matchNormalizedTitle = query => ({ $match: { normalizedTitle: new RegExp(query, 'i')  } })
 
 exports.all = (queryParams, cb) => {
 	const pipeline = []
