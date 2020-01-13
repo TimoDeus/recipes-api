@@ -1,11 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const app = express();
 const db = require('./db');
 
 app.engine('pug', require('pug').__express);
 app.set('view engine', 'pug');
+
+app.use(compression())
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json({limit: '10mb'}));
