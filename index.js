@@ -27,7 +27,7 @@ app.all('/*', function (req, res, next) {
 app.use(require('./controllers'));
 
 // Connect to Mongo on start
-db.connect(process.env.MONGODB_URI, function (err) {
+db.connect(process.env.DB_URI, function (err) {
 	if (err) {
 		console.log('Unable to connect to Mongo.', err);
 		process.exit(1)
