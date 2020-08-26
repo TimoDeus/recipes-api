@@ -28,7 +28,7 @@ exports.all = (queryParams, cb) => {
 	}
 	pipeline.push(sortByTitle)
 	pipeline.push(groupByType)
-	getCollection().aggregate(pipeline, cb)
+	getCollection().aggregate(pipeline).toArray(cb)
 }
 
 exports.getRecipeByTitle = (title, cb) => {
