@@ -16,7 +16,7 @@
     "express": "^4.16.2",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.0",
-    "pug": "^2.0.0-rc.4",
+    "pug": "^3.0.1",
     "qs": "^6.9.1"
   },
   "devDependencies": {
